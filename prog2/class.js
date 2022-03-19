@@ -111,14 +111,12 @@ class GrassEater extends LivingCreature {
     }
 }
 
-class Predatr {
+class Predatr extends LivingCreature {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.energy = 15;
-
-        this.directions = [];
+        super(x, y);
+        this.energy = 30;
     }
+    
 
     getNewCoordinates() {
         this.directions = [
@@ -133,19 +131,8 @@ class Predatr {
         ];
     }
     chooseCell(character) {
-        this.getNewCoordinates()
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
+        this.getNewCoordinates();
+        return super.chooseCell(character);
     }
     mul() {
 
@@ -231,12 +218,8 @@ class Predatr {
     }
 }
 
-class NoInfected_Person {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.directions = [];
-    }
+class NoInfected_Person extends LivingCreature{
+    
     getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
@@ -250,19 +233,8 @@ class NoInfected_Person {
         ];
     }
     chooseCell(character) {
-        this.getNewCoordinates()
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
+        this.getNewCoordinates();
+        return super.chooseCell(character);
     }
     ToInf() {
         var emptyCells = this.chooseCell(4)
@@ -310,39 +282,11 @@ class NoInfected_Person {
 
 
 
-class Infected_Person {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.multiplay = 0;
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
-        ];
-    }
-    chooseCell(character) {
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
-    }
-
+class Infected_Person extends LivingCreature{
+    
+    
     move() {
-        this.multiplay++
+        this.multiply++
         var emptyCells = this.chooseCell(0)
         var emptyCells2 = this.chooseCell(1)
 
@@ -363,9 +307,9 @@ class Infected_Person {
 
         }
         var rnd = random()
-        if (rnd > 0.5 && this.multiplay == 10) {
+        if (rnd > 0.5 && this.multiply == 10) {
             this.die()
-        } else if (rnd <= 0.5 && this.multiplay == 10) {
+        } else if (rnd <= 0.5 && this.multiply == 10) {
             var newX = this.x
             var newY = this.y
             matrix[this.y][this.x] = 5
